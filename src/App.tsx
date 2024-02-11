@@ -5,8 +5,8 @@ import { generateClient } from "aws-amplify/api";
 import { subscribe2channel } from "./graphql/subscriptions"; //codegen generated code
 import * as mutations from "./graphql/mutations"; //codegen generated code
 import { Subscription } from "rxjs/internal/Subscription";
-
-let channel = "midi1";
+import { Channel } from "./API";
+import { ReactP5Wrapper, P5CanvasInstance } from "@p5-wrapper/react";
 
 Amplify.configure({
   API: {
@@ -20,26 +20,74 @@ Amplify.configure({
   },
 });
 
+type Midi = {
+  note: number;
+  value: number;
+};
+
+type MidiMessage = {
+  __typename: string;
+  name: string;
+  midi: Midi;
+};
+
 const client = generateClient();
 
 function App() {
-  const [sub, setSub] = useState();
+  let data: MidiMessage = {
+    __typename: "initial",
+    name: "midi 1",
+    midi: {
+      note: 1,
+      value: 1.5,
+    },
+  };
+  const [send, setSend] = useState("");
+  const [received, setReceived] = useState<MidiMessage>(data);
+
+  let channel = "midi1";
+
   useEffect(() => {
     const subscription = client
       .graphql({
         query: subscribe2channel,
       })
       .subscribe({
-        next: (data) => {
-          console.log(data, "< data");
-          console.log("im happening");
+        next: ({ data }) => {
+          setReceived(data.subscribe2channel);
         },
         error: (error) => console.warn(error),
       });
     return () => subscription.unsubscribe();
   }, [channel]);
 
-  return <div>hello</div>;
+  if (received && received.midi) {
+    data = received;
+  }
+
+  function sketch(p5: P5CanvasInstance) {
+    p5.setup = () => p5.createCanvas(600, 400, p5.WEBGL);
+
+    p5.draw = () => {
+      p5.background(250);
+      p5.normalMaterial();
+      p5.push();
+      p5.rotateZ(p5.frameCount * received.midi.value * 0.001);
+      p5.rotateX(p5.frameCount * 0.01);
+      p5.rotateY(p5.frameCount * 0.01);
+      p5.plane(100);
+      p5.pop();
+    };
+  }
+
+  return (
+    <div>
+      <h5>channel: {data.name}</h5>
+      <div>note: {data.midi.note}</div>
+      <div>value: {data.midi.value}</div>
+      <ReactP5Wrapper sketch={sketch} />
+    </div>
+  );
 }
 
 export default App;

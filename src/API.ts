@@ -11,7 +11,7 @@ export type Channel = {
 export type Midi = {
   __typename: "Midi",
   note: number,
-  value: string,
+  value: number,
 };
 
 export type Publish2channelMutationVariables = {
@@ -27,7 +27,7 @@ export type Publish2channelMutation = {
     midi:  {
       __typename: "Midi",
       note: number,
-      value: string,
+      value: number,
     },
   } | null,
 };
@@ -42,7 +42,7 @@ export type GetChannelQuery = {
     midi:  {
       __typename: "Midi",
       note: number,
-      value: string,
+      value: number,
     },
   } | null,
 };
@@ -57,7 +57,7 @@ export type Subscribe2channelSubscription = {
     midi:  {
       __typename: "Midi",
       note: number,
-      value: string,
+      value: number,
     },
   } | null,
 };
