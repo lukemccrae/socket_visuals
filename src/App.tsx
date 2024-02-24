@@ -7,6 +7,7 @@ import * as mutations from "./graphql/mutations"; //codegen generated code
 import { Subscription } from "rxjs/internal/Subscription";
 import { Channel } from "./API";
 import { ReactP5Wrapper, P5CanvasInstance } from "@p5-wrapper/react";
+import Mouth from "./Mouth";
 
 Amplify.configure({
   API: {
@@ -15,7 +16,7 @@ Amplify.configure({
         "https://afno5ipvkfamfagfok7ad4qnwm.appsync-api.us-west-1.amazonaws.com/graphql",
       region: "us-west-1",
       defaultAuthMode: "apiKey",
-      apiKey: "da2-4wxpueumwrczlbhten3rrje4bi",
+      apiKey: "da2-7fj75oc5ufginkjobizl45jy6m",
     },
   },
 });
@@ -72,8 +73,8 @@ function App() {
       p5.background(250);
       p5.normalMaterial();
       p5.push();
-      p5.rotateZ(p5.frameCount * received.midi.value * 0.001);
-      p5.rotateX(p5.frameCount * 0.01);
+      p5.rotateZ(p5.frameCount * 0.01);
+      p5.rotateX(0.05);
       p5.rotateY(p5.frameCount * 0.01);
       p5.plane(100);
       p5.pop();
@@ -85,7 +86,8 @@ function App() {
       <h5>channel: {data.name}</h5>
       <div>note: {data.midi.note}</div>
       <div>value: {data.midi.value}</div>
-      <ReactP5Wrapper sketch={sketch} />
+      <ReactP5Wrapper sketch={sketch} data={data} />
+      <Mouth rows={20} columns={20} circleSize={10}></Mouth>
     </div>
   );
 }
