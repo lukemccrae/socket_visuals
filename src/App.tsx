@@ -16,7 +16,7 @@ Amplify.configure({
         "https://afno5ipvkfamfagfok7ad4qnwm.appsync-api.us-west-1.amazonaws.com/graphql",
       region: "us-west-1",
       defaultAuthMode: "apiKey",
-      apiKey: process.env.WS_X_API_KEY,
+      apiKey: process.env.REACT_APP_WS_X_API_KEY,
     },
   },
 });
