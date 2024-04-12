@@ -67,10 +67,7 @@ function App() {
   }
 
   const colors = ["blue", "green", "yellow", "purple"];
-  console.log(
-    process.env.NEXT_PUBLIC_WS_X_API_KEY,
-    "<< process.env.REACT_APP_WS_X_API_KEY"
-  );
+  console.log(process.env, "<< process.env.REACT_APP_WS_X_API_KEY");
 
   return (
     <div>
