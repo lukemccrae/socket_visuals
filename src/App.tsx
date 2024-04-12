@@ -16,7 +16,7 @@ Amplify.configure({
         "https://afno5ipvkfamfagfok7ad4qnwm.appsync-api.us-west-1.amazonaws.com/graphql",
       region: "us-west-1",
       defaultAuthMode: "apiKey",
-      apiKey: process.env.REACT_APP_WS_X_API_KEY,
+      apiKey: "da2-dfyrlvufhrccbo7snk6qjmante",
     },
   },
 });
@@ -67,7 +67,6 @@ function App() {
   }
 
   const colors = ["blue", "green", "yellow", "purple"];
-  console.log(process.env, "<< process.env.REACT_APP_WS_X_API_KEY");
 
   return (
     <div>
